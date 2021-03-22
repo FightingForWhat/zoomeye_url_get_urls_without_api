@@ -23,8 +23,8 @@ zoomeye注册自带10000条api数据可拉取，但很快就被挥霍完了。�
 
 ok了
 
-![](demo/demo1.png)
-![](demo/demo2.png)
+![](demo1.png)
+![](demo2.png)
 
 目前存在的bug：
 
@@ -35,4 +35,4 @@ ok了
 
 当然，如果你觉得好用，别忘了给我买杯咖啡。
 
-![](demo/weixin.png)
+![](weixin.png)
