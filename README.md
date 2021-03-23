@@ -1,6 +1,12 @@
 # zoomeye_url_get_urls_without_api
 
 
+1.0.2
+
+升级报错，并且报错后跳过执行，程序不退出。
+
+------------------------------
+
 改良了zoomeye_get_urls_without_api
 
 做一个小升级。
