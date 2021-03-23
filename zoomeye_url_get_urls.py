@@ -3,7 +3,7 @@
 # @Time    : 2021-03-21
 # @Author  : 409162075
 # @FileName: zoomeye_url_get_urls.py
-# version: 1.0.2
+# version: 1.0.3
 
 
 import requests
@@ -87,7 +87,19 @@ def main():
 
                 elif 'site' in html['matches'][i]:
                     data_source = html['matches'][i]['site']
-
+                    raw_data_info = html['matches'][i]['headers']
+                    # print(raw_data_info)
+                    if 'HTTP/0.9' in raw_data_info:
+                        service_info = 'http://'
+                    elif 'HTTP/1.0' in raw_data_info:
+                        service_info = 'http://'
+                    elif 'HTTP/1.1' in raw_data_info:
+                        service_info = 'http://'
+                    elif 'HTTP/2' in raw_data_info:
+                        service_info = 'https://'
+                    else:
+                        print('未知HTTP协议 请手动确认')
+                    data_source = service_info + data_source
                 else:
                     print('Error, please issues')
                     pass
