@@ -58,15 +58,20 @@ def main():
     ii = 0  # 总数据量
     # 页码范围内抓取
     for page_num in range(int(page_start), int(page_stop) + 1):
-        search_url = search_url + '&page=' + str(page_num) + '&pageSize=' + str(page_size_config)
-        html = requests.get(url=search_url, headers=header_config).json()
+        try:
+            search_url = search_url + '&page=' + str(page_num) + '&pageSize=' + str(page_size_config)
+            html = requests.get(url=search_url, headers=header_config).json()
+        except Exception as error:
+            print(str(error.args))
+            continue
 
         # 抓取页内数据
-
-        if 'matches' in html.keys():
+        try:
             data_limit = len(html['matches'])
-        else:
-            print(html.keys())
+        except Exception as error:
+            print('发生错误' + str(error.args))
+            print('请检查config文件是否已更新 或者因为抓取频率太高，需刷新网页填写验证码')
+            continue
 
         re_duplicates = set()
         # 去重
@@ -102,7 +107,7 @@ def main():
         print()
         ii = ii + i
         print('[!] 第' + str(page_num) + '页抓取完毕  共抓取数据' + str(i) + '条\n')
-        page_num += 1
+
     doc_result.close()
     print('-------抓取完毕------共抓取数据' + str(ii) + '条------' + '\n' * 2)
 
