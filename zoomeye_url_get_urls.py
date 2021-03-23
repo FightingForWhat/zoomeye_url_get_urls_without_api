@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python
+# !/usr/bin/python
 # @Time    : 2021-03-21
 # @Author  : 409162075
 # @FileName: zoomeye_url_get_urls.py
+# version: 1.0.2
 
 
 import requests
 import config
 import random
 
-
-
 def main():
-
 
     cookies_use = config.__jsluid_s + ';' + config.Hm_lvt_3c8266fabffc08ed4774a252adcb9263 + ';' + config.Hm_lpvt_3c8266fabffc08ed4774a252adcb9263
     if cookies_use:
@@ -65,34 +63,41 @@ def main():
 
         # 抓取页内数据
 
-        data_limit = len(html['matches'])
+        if 'matches' in html.keys():
+            data_limit = len(html['matches'])
+        else:
+            print(html.keys())
 
         re_duplicates = set()
         # 去重
         for i in range(0, data_limit):
-
             # print(i)
-            ip_want = html['matches'][i]['ip']
-            if 'portinfo' in html['matches'][i]:
+            try:
+                ip_want = html['matches'][i]['ip']
+                if 'portinfo' in html['matches'][i]:
 
-                port_want = html['matches'][i]['portinfo']['port']
-                service_want = html['matches'][i]['portinfo']['service']
-                data_source = str(service_want) + '://' + str(ip_want) + ':' + str(port_want)
+                    port_want = html['matches'][i]['portinfo']['port']
+                    service_want = html['matches'][i]['portinfo']['service']
+                    data_source = str(service_want) + '://' + str(ip_want) + ':' + str(port_want)
 
-            elif 'site' in html['matches'][i]:
-                data_source = html['matches'][i]['site']
+                elif 'site' in html['matches'][i]:
+                    data_source = html['matches'][i]['site']
 
-            else:
-                print('Error, please issues')
-                pass
+                else:
+                    print('Error, please issues')
+                    pass
 
-            if data_source not in re_duplicates:
-                re_duplicates.add(data_source)
-                print('[+]' + data_source)
-                doc_result.write(data_source + '\n')
+                if data_source not in re_duplicates:
+                    re_duplicates.add(data_source)
+                    print('[+] ' + data_source)
+                    doc_result.write(data_source + '\n')
+                    i += 1
+                else:
+                    pass
+            except Exception as error:
+                print('[!] 发生错误：' + str(error.args))
                 i += 1
-            else:
-                pass
+                continue
 
         print()
         ii = ii + i
@@ -110,9 +115,8 @@ def logo():
          /     /(  <_> |  <_> )  Y Y  \|        \___  \  ___/ 
         /_______ \____/ \____/|__|_|  /_______  / ____|\___  >
                 \/                  \/        \/\/         \/ 
-
+                    zoomeye_url_get_urls  without_zoomeye_api
     ''')
-
 
 if __name__ == '__main__':
     logo()
